@@ -4,12 +4,24 @@ import "../App.css";
 
 function Calculator() {
   const [factorCategories, setFactorCategories] = useState([
-    "Bank Account",
-    "Real Estate",
-    "Cash",
-    "Stock Values",
-    "Crypto",
-    "Automobiles",
+    {
+      name: "NFCU",
+      type: "bank",
+      subCategories: [
+        { subCategoryName: "Checking Account", balance: 500 },
+        { subCategoryName: "Savings Account", balance: 4500 },
+        { subCategoryName: "Travel Rewards Credit Card", balance: -87 },
+      ],
+    },
+    // {
+    //   name: "Real Estate",
+    // },
+    // "Bank Account",
+    // "Real Estate",
+    // "Cash",
+    // "Stock Values",
+    // "Crypto",
+    // "Automobiles",
   ]);
 
   const [inputValue, setInputValue] = useState("");
@@ -20,34 +32,40 @@ function Calculator() {
 
   function addCategory(newCat) {
     console.log("Adding: " + newCat);
-    var biggerArray = [...factorCategories, newCat];
-    setFactorCategories(biggerArray);
+    var updatedArray = [...factorCategories, { name: newCat }];
+    setFactorCategories(updatedArray);
   }
 
   function removeCategory(category) {
-    // console.log("Small Array: ");
-    // console.log(smallerArray);
-    // console.log("FC: ");
-    // console.log(factorCategories);
-    var smallerArray = factorCategories.filter((e) => e !== category);
+    console.log("Removing: " + category);
+    var smallerArray = factorCategories.filter((e) => e.name !== category);
     setFactorCategories(smallerArray);
   }
 
   const renderCategorizedContent = () => {
     return (
       <ul>
+        {console.log("factorCategories count:" + factorCategories.length)}
         {factorCategories.map((category, index) => (
           <li key={index}>
-            {category}
+            {category.name}
             <button
               style={{ color: "maroon" }}
-              onClick={() => removeCategory(category)}
+              onClick={() => removeCategory(category.name)}
             >
               x
             </button>
+            <ul>
+              {category.subCategories.map((subCategory, index) => (
+                <li key={index}>
+                  {subCategory.subCategoryName}
+                  {console.log("Sub Cat Name:" + subCategory.subCategoryName)}
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
-        <div style={{ backgroundColor: "maroon" }}>
+        <div style={{ backgroundColor: "gray" }}>
           <p>Add a category:</p>
           <input
             type="text"
