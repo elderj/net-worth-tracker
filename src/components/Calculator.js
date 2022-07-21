@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import CategoryTable from "./CategoryTable";
 import "../App.css";
 
 function Calculator() {
@@ -30,9 +30,9 @@ function Calculator() {
     setInputValue(event.target.value);
   };
 
-  function addCategory(newCat) {
-    console.log("Adding: " + newCat);
-    var updatedArray = [...factorCategories, { name: newCat }];
+  function addCategory(newCategoryName) {
+    console.log("Adding: " + newCategoryName);
+    var updatedArray = [...factorCategories, { name: newCategoryName }];
     setFactorCategories(updatedArray);
   }
 
@@ -56,12 +56,14 @@ function Calculator() {
               x
             </button>
             <ul>
-              {category.subCategories.map((subCategory, index) => (
-                <li key={index}>
-                  {subCategory.subCategoryName}
-                  {console.log("Sub Cat Name:" + subCategory.subCategoryName)}
-                </li>
-              ))}
+              {category.subCategories &&
+                category.subCategories.map((subCategory, index) => (
+                  <li key={index}>
+                    {subCategory.subCategoryName}
+                    {console.log("Sub Cat Name:" + subCategory.subCategoryName)}
+                  </li>
+                ))}
+              <CategoryTable />
             </ul>
           </li>
         ))}
@@ -73,6 +75,17 @@ function Calculator() {
             onChange={onChangeHandler}
             value={inputValue}
           />
+          <select>
+            <option value="grapefruit">Grapefruit</option>
+
+            <option value="lime">Lime</option>
+
+            <option selected value="coconut">
+              Coconut
+            </option>
+
+            <option value="mango">Mango</option>
+          </select>
           <button
             disabled={!inputValue}
             onClick={() => addCategory(inputValue)}
