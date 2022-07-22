@@ -4,6 +4,13 @@ function CategoryTable() {
   return (
     <>
       <p>Category Table</p>
+      <table>
+        <tbody>
+          <tr>
+            <td>cell 1</td>
+          </tr>
+        </tbody>
+      </table>
     </>
   );
 }
