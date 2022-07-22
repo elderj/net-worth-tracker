@@ -18,15 +18,6 @@ function Calculator() {
         { subCategoryName: "Travel Rewards Credit Card", balance: -87 },
       ],
     },
-    // {
-    //   name: "Real Estate",
-    // },
-    // "Bank Account",
-    // "Real Estate",
-    // "Cash",
-    // "Stock Values",
-    // "Crypto",
-    // "Automobiles",
   ]);
 
   const onInputChangeHandler = (event) => {
@@ -80,28 +71,20 @@ function Calculator() {
       <>
         {renderAddCategoryForm()}
         <ul>
-          {console.log("factorCategories count:" + factorCategories.length)}
           {factorCategories.map((category, index) => (
             <li key={index}>
-              {category.name + " " + category.type}
+              {category.name}
               <button
                 style={{ color: "maroon" }}
                 onClick={() => removeCategory(category.name)}
               >
                 x
               </button>
-              <ul>
-                {category.subCategories &&
-                  category.subCategories.map((subCategory, index) => (
-                    <li key={index}>
-                      {subCategory.subCategoryName}
-                      {console.log(
-                        "Sub Cat Name:" + subCategory.subCategoryName
-                      )}
-                    </li>
-                  ))}
-                <CategoryTable />
-              </ul>
+              <CategoryTable
+                type={category.type}
+                subCategories={category.subCategories}
+                backgroundColor={category.backgroundColor}
+              />
             </li>
           ))}
         </ul>
