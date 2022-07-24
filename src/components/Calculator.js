@@ -29,7 +29,9 @@ function Calculator() {
 
   const renderAddCategoryForm = () => {
     return (
-      <div style={{ backgroundColor: "gray" }}>
+      <div
+        style={{ backgroundColor: "gray", borderRadius: "4px", margin: "2em" }}
+      >
         <p>Add a category:</p>
         <input
           type="text"
@@ -42,7 +44,8 @@ function Calculator() {
           <option value="investment">Investment Account</option>
           <option value="realEstate">Real Estate</option>
           <option value="cash">Cash</option>
-          <option value="auto">Real Estate</option>
+          <option value="auto">Automobiles</option>
+          <option value="loans">Loans</option>
         </select>
         <button disabled={!inputValue} onClick={() => addCategory(inputValue)}>
           Add
@@ -70,9 +73,15 @@ function Calculator() {
     return (
       <>
         {renderAddCategoryForm()}
-        <ul>
+        <div>
           {factorCategories.map((category, index) => (
-            <li key={index}>
+            <div
+              key={index}
+              style={{
+                backgroundColor: category.backgroundColor,
+                borderRadius: "4px",
+              }}
+            >
               {category.name}
               <button
                 style={{ color: "maroon" }}
@@ -85,9 +94,9 @@ function Calculator() {
                 subCategories={category.subCategories}
                 backgroundColor={category.backgroundColor}
               />
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </>
     );
   };
