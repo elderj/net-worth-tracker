@@ -1,24 +1,72 @@
 import { useState } from "react";
 import CategoryTable from "./CategoryTable";
+import { getRandomColor } from "../utils";
 import "../App.css";
 
 function Calculator() {
   const [inputValue, setInputValue] = useState("");
   const [categoryType, setCategoryType] = useState("bank");
-
   const [factorCategories, setFactorCategories] = useState([
     {
       name: "NFCU",
       type: "bank",
       foregroundColor: "#FFFFFF",
       backgroundColor: "#1B3F6F",
-      subCategories: [
-        { subCategoryName: "Checking Account", balance: 500 },
-        { subCategoryName: "Savings Account", balance: 4500 },
-        { subCategoryName: "Travel Rewards Credit Card", balance: -87 },
-      ],
+      subCategories: [],
     },
   ]);
+
+  function addCategory(newCategoryName) {
+    console.log("Adding: " + newCategoryName);
+    var updatedArray = [
+      ...factorCategories,
+      {
+        name: newCategoryName,
+        type: categoryType,
+        backgroundColor: getRandomColor(),
+        subCategories: [],
+      },
+    ];
+    setFactorCategories(updatedArray);
+  }
+
+  function removeCategory(category) {
+    console.log("Removing: " + category);
+    var smallerArray = factorCategories.filter((e) => e.name !== category);
+    setFactorCategories(smallerArray);
+  }
+
+  function addSubcategory(categoryName) {
+    const selectedCat = factorCategories.filter(
+      (category) => categoryName === category.name
+    )[0];
+
+    // removeCategory(categoryName);
+    let updatedArray = [
+      ...factorCategories.filter((category) => categoryName !== category.name),
+      {
+        name: selectedCat.name,
+        backgroundColor: selectedCat.backgroundColor,
+        subCategories: [
+          // { subCategoryName: "Checking Account", balance: 500 },
+          // { subCategoryName: "Savings Account", balance: 4500 },
+          // { subCategoryName: "Travel Rewards Credit Card", balance: -87 },
+          ...selectedCat.subCategories,
+          {
+            subCategoryName: selectedCat.subCategories.length
+              ? selectedCat.subCategories.length + 1
+              : 1,
+            balance: 0,
+          },
+        ],
+      },
+    ];
+    setFactorCategories(updatedArray);
+  }
+
+  function removSubcategory(category) {
+    console.log("Let's remove this bread");
+  }
 
   const onInputChangeHandler = (event) => {
     setInputValue(event.target.value);
@@ -54,21 +102,6 @@ function Calculator() {
     );
   };
 
-  function addCategory(newCategoryName) {
-    console.log("Adding: " + newCategoryName);
-    var updatedArray = [
-      ...factorCategories,
-      { name: newCategoryName, type: categoryType },
-    ];
-    setFactorCategories(updatedArray);
-  }
-
-  function removeCategory(category) {
-    console.log("Removing: " + category);
-    var smallerArray = factorCategories.filter((e) => e.name !== category);
-    setFactorCategories(smallerArray);
-  }
-
   const renderCategorizedContent = () => {
     return (
       <>
@@ -76,7 +109,7 @@ function Calculator() {
         <div>
           {factorCategories.map((category, index) => (
             <div
-              key={index}
+              key={index + category}
               style={{
                 backgroundColor: category.backgroundColor,
                 borderRadius: "4px",
@@ -90,9 +123,12 @@ function Calculator() {
                 x
               </button>
               <CategoryTable
+                name={category.name}
                 type={category.type}
                 subCategories={category.subCategories}
                 backgroundColor={category.backgroundColor}
+                addSubcategory={addSubcategory}
+                removSubcategory={removSubcategory}
               />
             </div>
           ))}

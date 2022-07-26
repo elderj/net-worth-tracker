@@ -11,7 +11,7 @@ const CategoryTable = (props) => {
         style={{ backgroundColor: props.backgroundColor }}
       >
         <tbody>
-          {props.subCategories &&
+          {props.subCategories && props.subCategories.length > 0 ? (
             props.subCategories.map((subCategory, index) => (
               <tr>
                 <td>{subCategory.subCategoryName}</td>
@@ -19,7 +19,13 @@ const CategoryTable = (props) => {
                   <input></input>
                 </td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <p> No Subcategories let's add at least one</p>
+          )}
+          <button onClick={() => props.addSubcategory(props.name)}>
+            Add a subcategory
+          </button>
         </tbody>
       </table>
     </>
