@@ -18,12 +18,25 @@ const CategoryTable = (props) => {
                 <td>
                   <input></input>
                 </td>
+                <td>
+                  <button
+                    style={{ color: "maroon" }}
+                    onClick={() =>
+                      props.removSubcategory(
+                        props.name,
+                        subCategory.subCategoryName
+                      )
+                    }
+                  >
+                    x
+                  </button>
+                </td>
               </tr>
             ))
           ) : (
             <p> No Subcategories let's add at least one</p>
           )}
-          <button onClick={() => props.addSubcategory(props.name)}>
+          <button onClick={() => props.addSubcategory(props.key)}>
             Add a subcategory
           </button>
         </tbody>

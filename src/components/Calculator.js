@@ -10,6 +10,7 @@ function Calculator() {
     {
       name: "NFCU",
       type: "bank",
+      key: "default",
       foregroundColor: "#FFFFFF",
       backgroundColor: "#1B3F6F",
       subCategories: [],
@@ -30,20 +31,16 @@ function Calculator() {
     setFactorCategories(updatedArray);
   }
 
-  function removeCategory(category) {
-    console.log("Removing: " + category);
-    var smallerArray = factorCategories.filter((e) => e.name !== category);
-    setFactorCategories(smallerArray);
+  function removeCategory(key) {
+    setFactorCategories(factorCategories.filter((e) => e.key !== key));
   }
 
-  function addSubcategory(categoryName) {
+  function addSubcategory(categoryKey) {
     const selectedCat = factorCategories.filter(
-      (category) => categoryName === category.name
+      (category) => categoryKey === category.key
     )[0];
-
-    // removeCategory(categoryName);
     let updatedArray = [
-      ...factorCategories.filter((category) => categoryName !== category.name),
+      ...factorCategories.filter((category) => categoryKey !== category.name),
       {
         name: selectedCat.name,
         backgroundColor: selectedCat.backgroundColor,
@@ -64,8 +61,28 @@ function Calculator() {
     setFactorCategories(updatedArray);
   }
 
-  function removSubcategory(category) {
+  function removSubcategory(categoryName, subCategoryName) {
     console.log("Let's remove this bread");
+    const selectedCat = factorCategories.filter(
+      (category) => categoryName === category.name
+    )[0];
+
+    const filteredSubcats = selectedCat.subCategories.filter(
+      (subcat) => subcat.subCategoryName !== subCategoryName
+    );
+
+    console.log("filteredSubcats");
+    console.log(filteredSubcats);
+
+    let smallerArray = [
+      ...factorCategories.filter((category) => categoryName !== category.name),
+      {
+        name: selectedCat.name,
+        backgroundColor: selectedCat.backgroundColor,
+        subCategories: filteredSubcats,
+      },
+    ];
+    setFactorCategories(smallerArray);
   }
 
   const onInputChangeHandler = (event) => {
@@ -109,7 +126,7 @@ function Calculator() {
         <div>
           {factorCategories.map((category, index) => (
             <div
-              key={index + category}
+              key={category.key}
               style={{
                 backgroundColor: category.backgroundColor,
                 borderRadius: "4px",
@@ -118,13 +135,14 @@ function Calculator() {
               {category.name}
               <button
                 style={{ color: "maroon" }}
-                onClick={() => removeCategory(category.name)}
+                onClick={() => removeCategory(category.key)}
               >
                 x
               </button>
               <CategoryTable
                 name={category.name}
                 type={category.type}
+                key={category.key}
                 subCategories={category.subCategories}
                 backgroundColor={category.backgroundColor}
                 addSubcategory={addSubcategory}

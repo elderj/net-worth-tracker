@@ -12,7 +12,6 @@ function App() {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>Net Worth Track</p>
-
           <button onClick={() => setShowIntro(false)}>
             Let's Get Started!
           </button>
