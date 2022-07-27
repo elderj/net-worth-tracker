@@ -10,7 +10,7 @@ function Calculator() {
     {
       name: "NFCU",
       type: "bank",
-      key: "default",
+      id: "default",
       foregroundColor: "#FFFFFF",
       backgroundColor: "#1B3F6F",
       subCategories: [],
@@ -18,12 +18,13 @@ function Calculator() {
   ]);
 
   function addCategory(newCategoryName) {
-    console.log("Adding: " + newCategoryName);
+    const date = Date.now();
     var updatedArray = [
-      ...factorCategories,
+      factorCategories,
       {
         name: newCategoryName,
         type: categoryType,
+        id: date,
         backgroundColor: getRandomColor(),
         subCategories: [],
       },
@@ -31,54 +32,62 @@ function Calculator() {
     setFactorCategories(updatedArray);
   }
 
-  function removeCategory(key) {
-    setFactorCategories(factorCategories.filter((e) => e.key !== key));
+  function removeCategory(id) {
+    setFactorCategories(factorCategories.filter((e) => e.id !== id));
   }
 
-  function addSubcategory(categoryKey) {
+  function addSubcategory(categoryId) {
+    const date = Date.now();
     const selectedCat = factorCategories.filter(
-      (category) => categoryKey === category.key
+      (category) => categoryId === category.id
     )[0];
+    // console.log("Selected Cat:");
+    // console.log(selectedCat);
+
+    const filtered = factorCategories.filter(
+      (category) => categoryId !== category.id
+    );
+
+    console.log("Filtered:");
+    console.log(filtered);
+
     let updatedArray = [
-      ...factorCategories.filter((category) => categoryKey !== category.name),
+      ...filtered,
       {
         name: selectedCat.name,
         backgroundColor: selectedCat.backgroundColor,
+        type: selectedCat.type,
+        id: selectedCat.id,
         subCategories: [
-          // { subCategoryName: "Checking Account", balance: 500 },
-          // { subCategoryName: "Savings Account", balance: 4500 },
-          // { subCategoryName: "Travel Rewards Credit Card", balance: -87 },
           ...selectedCat.subCategories,
           {
-            subCategoryName: selectedCat.subCategories.length
-              ? selectedCat.subCategories.length + 1
-              : 1,
+            // subCategoryId: selectedCat.subCategories.length,
+            subCategoryId: date,
             balance: 0,
           },
         ],
       },
     ];
+
     setFactorCategories(updatedArray);
   }
 
-  function removSubcategory(categoryName, subCategoryName) {
-    console.log("Let's remove this bread");
+  function removeSubcategory(categoryId, subCategoryId) {
     const selectedCat = factorCategories.filter(
-      (category) => categoryName === category.name
+      (category) => categoryId === category.id
     )[0];
 
     const filteredSubcats = selectedCat.subCategories.filter(
-      (subcat) => subcat.subCategoryName !== subCategoryName
+      (subcat) => subcat.subCategoryId !== subCategoryId
     );
 
-    console.log("filteredSubcats");
-    console.log(filteredSubcats);
-
     let smallerArray = [
-      ...factorCategories.filter((category) => categoryName !== category.name),
+      ...factorCategories.filter((category) => categoryId !== category.id),
       {
         name: selectedCat.name,
         backgroundColor: selectedCat.backgroundColor,
+        type: selectedCat.type,
+        id: selectedCat.id,
         subCategories: filteredSubcats,
       },
     ];
@@ -126,7 +135,7 @@ function Calculator() {
         <div>
           {factorCategories.map((category, index) => (
             <div
-              key={category.key}
+              id={category.id}
               style={{
                 backgroundColor: category.backgroundColor,
                 borderRadius: "4px",
@@ -135,18 +144,18 @@ function Calculator() {
               {category.name}
               <button
                 style={{ color: "maroon" }}
-                onClick={() => removeCategory(category.key)}
+                onClick={() => removeCategory(category.id)}
               >
                 x
               </button>
               <CategoryTable
                 name={category.name}
                 type={category.type}
-                key={category.key}
+                id={category.id}
                 subCategories={category.subCategories}
                 backgroundColor={category.backgroundColor}
                 addSubcategory={addSubcategory}
-                removSubcategory={removSubcategory}
+                removeSubcategory={removeSubcategory}
               />
             </div>
           ))}

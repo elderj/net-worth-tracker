@@ -14,7 +14,7 @@ const CategoryTable = (props) => {
           {props.subCategories && props.subCategories.length > 0 ? (
             props.subCategories.map((subCategory, index) => (
               <tr>
-                <td>{subCategory.subCategoryName}</td>
+                <td>{subCategory.subCategoryId}</td>
                 <td>
                   <input></input>
                 </td>
@@ -22,9 +22,9 @@ const CategoryTable = (props) => {
                   <button
                     style={{ color: "maroon" }}
                     onClick={() =>
-                      props.removSubcategory(
-                        props.name,
-                        subCategory.subCategoryName
+                      props.removeSubcategory(
+                        props.id,
+                        subCategory.subCategoryId
                       )
                     }
                   >
@@ -36,7 +36,7 @@ const CategoryTable = (props) => {
           ) : (
             <p> No Subcategories let's add at least one</p>
           )}
-          <button onClick={() => props.addSubcategory(props.key)}>
+          <button onClick={() => props.addSubcategory(props.id)}>
             Add a subcategory
           </button>
         </tbody>
