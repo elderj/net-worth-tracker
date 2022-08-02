@@ -20,7 +20,7 @@ function Calculator() {
   function addCategory(newCategoryName) {
     const date = Date.now();
     var updatedArray = [
-      factorCategories,
+      ...factorCategories,
       {
         name: newCategoryName,
         type: categoryType,
@@ -41,15 +41,10 @@ function Calculator() {
     const selectedCat = factorCategories.filter(
       (category) => categoryId === category.id
     )[0];
-    // console.log("Selected Cat:");
-    // console.log(selectedCat);
 
     const filtered = factorCategories.filter(
       (category) => categoryId !== category.id
     );
-
-    console.log("Filtered:");
-    console.log(filtered);
 
     let updatedArray = [
       ...filtered,
@@ -61,8 +56,8 @@ function Calculator() {
         subCategories: [
           ...selectedCat.subCategories,
           {
-            // subCategoryId: selectedCat.subCategories.length,
             subCategoryId: date,
+            subCategoryName: "Name",
             balance: 0,
           },
         ],
@@ -133,32 +128,34 @@ function Calculator() {
       <>
         {renderAddCategoryForm()}
         <div>
-          {factorCategories.map((category, index) => (
-            <div
-              id={category.id}
-              style={{
-                backgroundColor: category.backgroundColor,
-                borderRadius: "4px",
-              }}
-            >
-              {category.name}
-              <button
-                style={{ color: "maroon" }}
-                onClick={() => removeCategory(category.id)}
-              >
-                x
-              </button>
-              <CategoryTable
-                name={category.name}
-                type={category.type}
+          {factorCategories
+            .sort((a, b) => (a.id > b.id ? 1 : -1))
+            .map((category, index) => (
+              <div
                 id={category.id}
-                subCategories={category.subCategories}
-                backgroundColor={category.backgroundColor}
-                addSubcategory={addSubcategory}
-                removeSubcategory={removeSubcategory}
-              />
-            </div>
-          ))}
+                style={{
+                  backgroundColor: category.backgroundColor,
+                  borderRadius: "4px",
+                }}
+              >
+                {category.name}
+                <button
+                  style={{ color: "maroon" }}
+                  onClick={() => removeCategory(category.id)}
+                >
+                  x
+                </button>
+                <CategoryTable
+                  name={category.name}
+                  type={category.type}
+                  id={category.id}
+                  subCategories={category.subCategories}
+                  backgroundColor={category.backgroundColor}
+                  addSubcategory={addSubcategory}
+                  removeSubcategory={removeSubcategory}
+                />
+              </div>
+            ))}
         </div>
       </>
     );

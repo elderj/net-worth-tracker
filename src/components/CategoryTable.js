@@ -15,6 +15,7 @@ const CategoryTable = (props) => {
             props.subCategories.map((subCategory, index) => (
               <tr>
                 <td>{subCategory.subCategoryId}</td>
+                <td>{subCategory.subCategoryName}</td>
                 <td>
                   <input></input>
                 </td>
