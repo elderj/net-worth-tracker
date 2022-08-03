@@ -41,4 +41,11 @@
 .SubCategory-Table {
   background-color: bisque;
   text-align: left;
+  border-collapse: collapse;
+  border: 1px solid #6d6d6d;
+}
+
+table td {
+  border: 1px solid #6d6d6d;
+  width: "100%";
 }

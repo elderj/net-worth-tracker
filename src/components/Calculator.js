@@ -1,7 +1,9 @@
 import { useState } from "react";
 import CategoryTable from "./CategoryTable";
-import { getRandomColor } from "../utils";
+import { getRandomColor, getTotal } from "../utils";
 import "../App.css";
+import MainChart from "./MainChart";
+import TotalsSummary from "./TotalsSummary";
 
 function Calculator() {
   const [inputValue, setInputValue] = useState("");
@@ -19,6 +21,28 @@ function Calculator() {
 
   function addCategory(newCategoryName) {
     const date = Date.now();
+    let presetSubCats = [];
+
+    if (categoryType === "bank") {
+      presetSubCats.push({
+        balance: 4500,
+        subCategoryId: date,
+        subCategoryName: "Checking",
+      });
+      presetSubCats.push({
+        balance: 500,
+        subCategoryId: date + 1,
+        subCategoryName: "Savings",
+      });
+    }
+    if (categoryType === "cash") {
+      presetSubCats.push({
+        balance: 1,
+        subCategoryId: date,
+        subCategoryName: "Balance",
+      });
+    }
+
     var updatedArray = [
       ...factorCategories,
       {
@@ -26,7 +50,7 @@ function Calculator() {
         type: categoryType,
         id: date,
         backgroundColor: getRandomColor(),
-        subCategories: [],
+        subCategories: presetSubCats,
       },
     ];
     setFactorCategories(updatedArray);
@@ -107,6 +131,7 @@ function Calculator() {
           name="name"
           onChange={onInputChangeHandler}
           value={inputValue}
+          placeholder="Category Name"
         />
         <select value={categoryType} onChange={onTypeChangeHandler}>
           <option value="bank">Bank</option>
@@ -124,39 +149,54 @@ function Calculator() {
   };
 
   const renderCategorizedContent = () => {
+    console.log("Categories:");
+    console.log(factorCategories);
     return (
       <>
         {renderAddCategoryForm()}
-        <div>
-          {factorCategories
-            .sort((a, b) => (a.id > b.id ? 1 : -1))
-            .map((category, index) => (
-              <div
-                id={category.id}
-                style={{
-                  backgroundColor: category.backgroundColor,
-                  borderRadius: "4px",
-                }}
-              >
-                {category.name}
-                <button
-                  style={{ color: "maroon" }}
-                  onClick={() => removeCategory(category.id)}
-                >
-                  x
-                </button>
-                <CategoryTable
-                  name={category.name}
-                  type={category.type}
+        <table className="SubCategory-Table">
+          <tbody>
+            {factorCategories
+              .sort((a, b) => (a.id > b.id ? 1 : -1))
+              .map((category, index) => (
+                <div
                   id={category.id}
-                  subCategories={category.subCategories}
-                  backgroundColor={category.backgroundColor}
-                  addSubcategory={addSubcategory}
-                  removeSubcategory={removeSubcategory}
-                />
-              </div>
-            ))}
-        </div>
+                  style={{
+                    backgroundColor: category.backgroundColor,
+                    borderRadius: "4px",
+                  }}
+                >
+                  <tr>
+                    <td>{category.name + ": " + category.type}</td>
+                    <td
+                      colSpan={5}
+                      style={{
+                        verticalAlign: "top",
+                        textAlign: "right",
+                      }}
+                    >
+                      <button
+                        style={{ color: "maroon", verticalAlign: "top" }}
+                        onClick={() => removeCategory(category.id)}
+                      >
+                        x
+                      </button>
+                    </td>
+                  </tr>
+
+                  <CategoryTable
+                    name={category.name}
+                    type={category.type}
+                    id={category.id}
+                    subCategories={category.subCategories}
+                    backgroundColor={category.backgroundColor}
+                    addSubcategory={addSubcategory}
+                    removeSubcategory={removeSubcategory}
+                  />
+                </div>
+              ))}
+          </tbody>
+        </table>
       </>
     );
   };
@@ -165,6 +205,8 @@ function Calculator() {
     <div className="App">
       <header className="App-header">
         <h1>Net Worth Tracker</h1>
+        <TotalsSummary total={getTotal(factorCategories)} />
+        <MainChart />
         {renderCategorizedContent()}
       </header>
     </div>
