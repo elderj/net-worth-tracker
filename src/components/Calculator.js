@@ -24,6 +24,27 @@ function Calculator() {
     },
   ]);
 
+  function setColorForCategory(id, hexValue) {
+    const selectedCat = factorCategories.filter(
+      (category) => id === category.id
+    )[0];
+
+    const filtered = factorCategories.filter((category) => id !== category.id);
+
+    let updatedArray = [
+      ...filtered,
+      {
+        name: selectedCat.name,
+        backgroundColor: hexValue,
+        type: selectedCat.type,
+        id: selectedCat.id,
+        subCategories: [...selectedCat.subCategories],
+      },
+    ];
+
+    setFactorCategories(updatedArray);
+  }
+
   function addCategory(newCategoryName) {
     const date = Date.now();
     let presetSubCats = [];
@@ -202,8 +223,6 @@ function Calculator() {
   };
 
   const renderCategorizedContent = () => {
-    console.log("Categories:");
-    console.log(factorCategories);
     return (
       <>
         {renderAddCategoryForm()}
@@ -222,17 +241,33 @@ function Calculator() {
                   <tr>
                     <td>{category.name + ": " + category.type}</td>
                     <td>
-                      {console.log("Here")}
-                      {console.log(category.id === showColorModal)}
-
                       {category.id === showColorModal ? (
                         <div className="parent">
                           <div className="Floating-color-div">
-                            <button
-                              onClick={() => setShowColorModal("nothing")}
-                            >
-                              Close Color Window
-                            </button>
+                            <table>
+                              <tr>
+                                <td className="set-color">
+                                  <button
+                                    onClick={() =>
+                                      setColorForCategory(
+                                        category.id,
+                                        colorHexCode
+                                      )
+                                    }
+                                  >
+                                    Set Color
+                                  </button>
+                                </td>
+                                <td>
+                                  <button
+                                    onClick={() => setShowColorModal("nothing")}
+                                  >
+                                    X
+                                  </button>
+                                </td>
+                              </tr>
+                            </table>
+
                             <SketchPicker
                               color={colorHexCode}
                               onChange={(e) => setColorHexCode(e.hex)}
@@ -244,9 +279,7 @@ function Calculator() {
                           src={brush}
                           className="Paint-brush"
                           alt="Paint brush icon to change color per category."
-                          onClick={() =>
-                            console.log(setShowColorModal(category.id))
-                          }
+                          onClick={() => setShowColorModal(category.id)}
                         />
                       )}
                     </td>

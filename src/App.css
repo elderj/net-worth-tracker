@@ -60,6 +60,10 @@
   height: 10vmin;
 }
 
+.set-color {
+  width: 100%;
+}
+
 table td {
   border: 1px solid #6d6d6d;
   width: "100%";
