@@ -45,6 +45,21 @@
   border: 1px solid #6d6d6d;
 }
 
+.parent {
+  position: relative;
+  background: green;
+}
+
+.Floating-color-div {
+  position: absolute;
+  bottom: 0px;
+  background: red;
+}
+
+.Paint-brush {
+  height: 10vmin;
+}
+
 table td {
   border: 1px solid #6d6d6d;
   width: "100%";

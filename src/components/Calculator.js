@@ -1,13 +1,18 @@
 import { useState } from "react";
+import { SketchPicker } from "react-color";
 import CategoryTable from "./CategoryTable";
 import { getRandomColor, getTotal } from "../utils";
 import "../App.css";
+import brush from "../images/paint-brush.png";
 import MainChart from "./MainChart";
 import TotalsSummary from "./TotalsSummary";
 
 function Calculator() {
   const [inputValue, setInputValue] = useState("");
   const [categoryType, setCategoryType] = useState("bank");
+  const [colorHexCode, setColorHexCode] = useState("#000000");
+  const [showColorModal, setShowColorModal] = useState("nothing");
+
   const [factorCategories, setFactorCategories] = useState([
     {
       name: "NFCU",
@@ -216,6 +221,35 @@ function Calculator() {
                 >
                   <tr>
                     <td>{category.name + ": " + category.type}</td>
+                    <td>
+                      {console.log("Here")}
+                      {console.log(category.id === showColorModal)}
+
+                      {category.id === showColorModal ? (
+                        <div className="parent">
+                          <div className="Floating-color-div">
+                            <button
+                              onClick={() => setShowColorModal("nothing")}
+                            >
+                              Close Color Window
+                            </button>
+                            <SketchPicker
+                              color={colorHexCode}
+                              onChange={(e) => setColorHexCode(e.hex)}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <img
+                          src={brush}
+                          className="Paint-brush"
+                          alt="Paint brush icon to change color per category."
+                          onClick={() =>
+                            console.log(setShowColorModal(category.id))
+                          }
+                        />
+                      )}
+                    </td>
                     <td
                       colSpan={5}
                       style={{
