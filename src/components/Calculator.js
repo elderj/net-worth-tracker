@@ -35,11 +35,59 @@ function Calculator() {
         subCategoryName: "Savings",
       });
     }
+
+    if (categoryType === "investment") {
+      presetSubCats.push({
+        balance: 55,
+        subCategoryId: date,
+        subCategoryName: "MCD Stock",
+      });
+      presetSubCats.push({
+        balance: 1000,
+        subCategoryId: date,
+        subCategoryName: "1% Certificate of Deposit",
+      });
+    }
+
+    if (categoryType === "realEstate") {
+      presetSubCats.push({
+        balance: 225000,
+        subCategoryId: date,
+        subCategoryName: "Estimated Home Value",
+      });
+      presetSubCats.push({
+        balance: -25000,
+        subCategoryId: date,
+        subCategoryName: "Remaining Mortgage Balance",
+      });
+    }
+
     if (categoryType === "cash") {
       presetSubCats.push({
         balance: 1,
         subCategoryId: date,
         subCategoryName: "Balance",
+      });
+    }
+
+    if (categoryType === "auto") {
+      presetSubCats.push({
+        balance: 3500,
+        subCategoryId: date,
+        subCategoryName: "Car value",
+      });
+      presetSubCats.push({
+        balance: 3500,
+        subCategoryId: date,
+        subCategoryName: "Remaining Auto loan balance",
+      });
+    }
+
+    if (categoryType === "loan") {
+      presetSubCats.push({
+        balance: -2500,
+        subCategoryId: date,
+        subCategoryName: "Personal Loan",
       });
     }
 
