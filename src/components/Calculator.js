@@ -225,7 +225,6 @@ function Calculator() {
   const renderCategorizedContent = () => {
     return (
       <>
-        {renderAddCategoryForm()}
         <table className="SubCategory-Table">
           <tbody>
             {factorCategories
@@ -246,18 +245,7 @@ function Calculator() {
                           <div className="Floating-color-div">
                             <table>
                               <tr>
-                                <td className="set-color">
-                                  <button
-                                    onClick={() =>
-                                      setColorForCategory(
-                                        category.id,
-                                        colorHexCode
-                                      )
-                                    }
-                                  >
-                                    Set Color
-                                  </button>
-                                </td>
+                                <td className="set-color" />
                                 <td>
                                   <button
                                     onClick={() => setShowColorModal("nothing")}
@@ -272,6 +260,13 @@ function Calculator() {
                               color={colorHexCode}
                               onChange={(e) => setColorHexCode(e.hex)}
                             />
+                            <button
+                              onClick={() =>
+                                setColorForCategory(category.id, colorHexCode)
+                              }
+                            >
+                              Set Color
+                            </button>
                           </div>
                         </div>
                       ) : (
@@ -312,6 +307,7 @@ function Calculator() {
               ))}
           </tbody>
         </table>
+        {renderAddCategoryForm()}
       </>
     );
   };

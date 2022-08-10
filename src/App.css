@@ -39,10 +39,10 @@
 }
 
 .SubCategory-Table {
-  background-color: bisque;
   text-align: left;
   border-collapse: collapse;
   border: 1px solid #6d6d6d;
+  width: 80%;
 }
 
 .parent {
@@ -53,7 +53,8 @@
 .Floating-color-div {
   position: absolute;
   bottom: 0px;
-  background: red;
+  text-align: center;
+  padding: 5%;
 }
 
 .Paint-brush {
@@ -64,7 +65,7 @@
   width: 100%;
 }
 
-table td {
+.SubCategory-Table tr {
   border: 1px solid #6d6d6d;
-  width: "100%";
+  width: 100%;
 }
